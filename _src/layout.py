@@ -10,7 +10,7 @@ FEATURES = [
     ("/features/fleet-management/", "Fleet management", "Every car, its rego, insurance, documents and status"),
     ("/features/digital-rental-agreements/", "Digital rental agreements", "Your agreement, signed on screen, with inspections"),
     ("/integrations/xero/", "Invoices, payments & Xero", "Weekly invoices, reminders and bonds, synced with Xero"),
-    ("/features/fines-and-tolls/", "Fines & tolls", "Notices read, matched to the hirer, ready to nominate"),
+    ("/features/fines-and-tolls/", "Fines & tolls", "Notices read by AI, matched to the hirer, ready to nominate"),
     ("/features/fleet-maintenance/", "Servicing & maintenance", "Service schedules from your mechanic's invoices"),
     ("/features/gps-tracking/", "GPS tracking", "Live map, trips and kilometres for every car"),
 ]
@@ -67,13 +67,13 @@ def header() -> str:
 <nav class="nav" aria-label="Main">
 <details class="dd"><summary>Features</summary><div class="menu">{feats}</div></details>
 <details class="dd"><summary>Solutions</summary><div class="menu">{sols}</div></details>
-<a href="/pricing/">Pricing</a><a href="/about/">About</a>
+<a href="/ai/">AI fleet manager</a><a href="/pricing/">Pricing</a><a href="/about/">About</a>
 </nav>
 <div class="actions"><a class="login" href="{APP}/login">Log in</a><a class="btn sm" href="/contact/">Book a demo</a><a class="btn primary sm" href="{APP}/signup">Start free</a></div>
 <details class="mnav"><summary aria-label="Menu"><i></i></summary><div class="panel">
 <h4>Features</h4>{mfeat}<a href="/features/">All features</a>
 <h4>Solutions</h4>{msol}
-<h4>Company</h4><a href="/pricing/">Pricing</a><a href="/about/">About</a><a href="/security/">Security</a><a href="/contact/">Contact</a><a href="{APP}/login">Log in</a>
+<h4>Company</h4><a href="/ai/">AI fleet manager</a><a href="/pricing/">Pricing</a><a href="/about/">About</a><a href="/security/">Security</a><a href="/contact/">Contact</a><a href="{APP}/login">Log in</a>
 <a class="btn primary" href="{APP}/signup">Start your free month</a><a class="btn" href="/contact/">Book a demo</a>
 </div></details>
 </div></header>'''
@@ -84,11 +84,11 @@ def footer() -> str:
     return f'''<footer><div class="wrap">
 <div class="cols">
 <div><a class="brand" href="/"><img src="/assets/icon.png" alt="" width="34" height="34"><span><b>RentalFleet</b><i>Book</i></span></a>
-<p style="margin-top:14px;max-width:300px">Fleet management software for Australian car rental businesses. Built in Melbourne by a rental operator.</p>
+<p style="margin-top:14px;max-width:300px">The AI fleet manager for Australian car rental businesses. Built in Melbourne by a rental operator.</p>
 <p><a href="{PHONE_HREF}" style="display:inline">{PHONE}</a></p></div>
 <div><h4>Features</h4>{col(FEATURES)}</div>
 <div><h4>Solutions</h4>{col(SOLUTIONS)}</div>
-<div><h4>Company</h4><a href="/about/">About us</a><a href="/pricing/">Pricing</a><a href="/security/">Security</a><a href="/contact/">Contact &amp; demo</a></div>
+<div><h4>Company</h4><a href="/ai/">AI fleet manager</a><a href="/about/">About us</a><a href="/pricing/">Pricing</a><a href="/security/">Security</a><a href="/contact/">Contact &amp; demo</a></div>
 <div><h4>Account</h4><a href="{APP}/signup">Start free</a><a href="{APP}/login">Log in</a><a href="/privacy.html">Privacy</a><a href="/terms.html">Terms</a></div>
 </div>
 <div class="base"><span>© <span id="y">2026</span> RentalFleetBook</span><span><a href="/privacy.html">Privacy policy</a> · <a href="/terms.html">Terms and conditions</a></span></div>

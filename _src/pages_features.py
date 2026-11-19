@@ -13,9 +13,9 @@ PAGES = [
         mock=mocks.fleet(),
         blocks=[
             ("car", "One record per vehicle", "Rego and state, make, model, VIN, weekly rate, bond, km limit, service interval and documents, all on the car's page."),
-            ("calendar", "Rego and insurance due dates", "See which cars have rego or insurance coming up. VicRoads renewal notices are read automatically and the bill goes to Xero."),
+            ("calendar", "Rego and insurance due dates", "See which cars have rego or insurance coming up. VicRoads renewal notices are read by AI and the bill goes to Xero."),
             ("chart", "Fleet utilisation reports", "Choose any dates and see days on hire, idle days and rent earned per car and for the whole fleet, with a CSV download."),
-            ("inbox", "Documents filed automatically", "Forward rego notices, insurance papers, tolls and mechanic invoices to your own inbox address. Each one is read and filed against the right car."),
+            ("inbox", "Documents filed automatically", "Forward rego notices, insurance papers, tolls and mechanic invoices to your own inbox address. AI reads each one and files it against the right car."),
             ("users", "Your team, with roles", "Owner, manager, finance and yard staff each see what they need. Add as many users as you like."),
             ("phone", "Works in the yard", "Check a car, start a hire or record a return from your phone. Install it to your home screen like an app."),
         ],
@@ -32,11 +32,11 @@ PAGES = [
         lead="Upload your own agreement once. For every hire, the hirer's details, vehicle, dates and amounts fill in automatically. The hirer signs on screen, and the signed copy goes out with the car's insurance papers.",
         mock=mocks.agreement(),
         blocks=[
-            ("sign", "Your own wording", "Upload your agreement as Word or PDF. Your wording is kept exactly as it is; names, dates, vehicle and amounts become blanks."),
+            ("sign", "Your own wording, set up by AI", "Upload your agreement as Word or PDF. AI keeps your wording exactly as it is and turns names, dates, vehicle and amounts into blanks."),
             ("camera", "Pickup and return inspections", "Photos of every side of the car, odometer and fuel, with damage marked as existing or new. Done on a phone in the yard."),
             ("invoice", "Bond statement on return", "When the car comes back, damage, unpaid rent, extra kilometres and fines are pulled into a bond statement you can adjust."),
             ("inbox", "Emailed automatically", "The signed agreement and the insurer's papers (policy, PDS, FSG) are emailed to the hirer, with a copy to you."),
-            ("users", "Licence and hirer details", "Licence photos and details stored privately with the customer record, ready for the next hire and for fine nominations."),
+            ("users", "Licences read by AI", "Snap the driver licence and AI fills in the hirer's name, number, expiry and address. Photos are stored privately for the next hire and for fine nominations."),
             ("refresh", "Billing starts on signing", "Signing can create the first invoice and the weekly repeating invoice in Xero, so billing starts the same day."),
         ],
         steps=[("Upload your agreement", "Word or PDF, once."), ("Start a hire", "Pick the hirer and the car; the agreement fills in."), ("Inspect and sign", "Photos at pickup, signature on screen, papers emailed.")],
@@ -67,12 +67,12 @@ PAGES = [
     dict(
         path="/features/fines-and-tolls/", name="Fines & tolls",
         title="Traffic Fine & Toll Management for Rental Cars | RentalFleetBook",
-        desc="Rental car fines and tolls read automatically, matched to the hirer at the time of the offence, and ready to nominate on the council or toll site. Disputes, withdrawals and recharges included.",
+        desc="Rental car fines and tolls read by AI, matched to the hirer at the time of the offence, and ready to nominate on the council or toll site. Disputes, withdrawals and recharges included.",
         eyebrow="Fines & tolls", h1="Every fine matched to the right hirer, automatically",
-        lead="Forward or scan an infringement notice. RentalFleetBook reads it, finds who had the car at the time of the offence, and gets the nomination details ready to copy into the council or toll operator's website.",
+        lead="Forward or scan an infringement notice. RentalFleetBook's AI reads it, finds who had the car at the time of the offence, and gets the nomination details ready to copy into the council or toll operator's website.",
         mock=mocks.fine(),
         blocks=[
-            ("inbox", "Read automatically", "Notice number, offence, date and time, location, amount and due date are read from the notice. No typing."),
+            ("inbox", "Read by AI", "Notice number, offence, date and time, location, amount and due date are read from the notice by AI. No typing."),
             ("users", "Matched to the hire", "The offence time is matched to the hire at that moment, so you know exactly who to nominate."),
             ("ticket", "Ready to nominate", "Hirer and licence details laid out to copy in one click, with a link to the right council or toll nomination page."),
             ("shield", "Not on hire? Dispute it", "If the car wasn't on hire, record why, with a dispute letter tool that includes repair evidence."),
@@ -87,13 +87,13 @@ PAGES = [
     dict(
         path="/features/fleet-maintenance/", name="Servicing & maintenance",
         title="Fleet Maintenance Software for Rental Cars | Service Tracking | RentalFleetBook",
-        desc="Track rental car servicing by kilometres. Mechanic invoices read automatically, odometer kept current, overdue services highlighted and draft bills sent to Xero.",
+        desc="Track rental car servicing by kilometres. Mechanic invoices read by AI, odometer kept current, overdue services highlighted and draft bills sent to Xero.",
         eyebrow="Servicing & maintenance", h1="Fleet servicing that never slips through the cracks",
         lead="Rental cars cover a lot of kilometres. RentalFleetBook keeps every car's service history, current odometer and next service in one list, so nothing goes overdue while it's out on hire.",
         mock=mocks.service(),
         blocks=[
             ("wrench", "Service history per car", "Every service, repair and part, with cost and odometer, from your mechanic's invoices."),
-            ("inbox", "Mechanic invoices read", "Forward the invoice and the service type, odometer and next due are filled in, with a draft bill in Xero."),
+            ("inbox", "Mechanic invoices read by AI", "Forward the invoice and AI fills in the service type, odometer and next due are filled in, with a draft bill in Xero."),
             ("clock", "Due by kilometres", "Set the service interval per car. With odometer readings from hires and GPS, you see how many kilometres are left."),
             ("bell", "Overdue stands out", "Cars due soon and overdue rise to the top, sorted by date."),
             ("calendar", "Rego and insurance", "Renewal dates sit alongside servicing, so the car is always roadworthy and legal."),
@@ -152,7 +152,7 @@ def feature_page(p: dict) -> str:
 def features_hub() -> str:
     icons = ["car", "sign", "invoice", "ticket", "wrench", "pin"]
     cards = "".join(f'<a class="card" href="{h}">{icon(i)}<h3>{esc(t)}</h3><p>{esc(d)}.</p><span class="more">Learn more →</span></a>' for (h, t, d), i in zip(FEATURES, icons))
-    extra = [("inbox", "Paperwork inbox", "Your own forwarding address for tolls, fines, rego notices, insurance and mechanic invoices. Each one is read and filed."),
+    extra = [("inbox", "Paperwork inbox", "Your own forwarding address for tolls, fines, rego notices, insurance and mechanic invoices. AI reads each one and files it."),
              ("bell", "Overdue reminders", "One list of who owes what, with SMS and email reminders showing the total owing."),
              ("chart", "Utilisation reports", "Days on hire, idle days and rent earned per car for any dates, with CSV download."),
              ("users", "Team roles", "Owner, manager, finance and yard staff logins, with unlimited users."),

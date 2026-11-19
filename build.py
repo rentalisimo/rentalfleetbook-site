@@ -23,6 +23,7 @@ for p in pages_features.PAGES:
     out[p["path"]] = pages_features.feature_page(p)
 for s in pages_more.SOL:
     out[s["path"]] = pages_more.solution_page(s)
+out["/ai/"] = pages_more.ai_page()
 out["/pricing/"] = pages_more.pricing()
 out["/about/"] = pages_more.about()
 out["/security/"] = pages_more.security()
@@ -40,7 +41,7 @@ for path, html in out.items():
 
 today = date.today().isoformat()
 urls = [p for p in out if p != "/404.html"]
-prio = lambda p: "1.0" if p == "/" else "0.9" if p.startswith(("/features/", "/integrations/", "/pricing/")) else "0.8" if p.startswith("/solutions/") else "0.5"
+prio = lambda p: "1.0" if p == "/" else "0.9" if p.startswith(("/ai/", "/features/", "/integrations/", "/pricing/")) else "0.8" if p.startswith("/solutions/") else "0.5"
 (ROOT / "sitemap.xml").write_text(
     '<?xml version="1.0" encoding="UTF-8"?>\n<urlset xmlns="http://www.sitemaps.org/schemas/sitemap/0.9">\n'
     + "".join(f"  <url><loc>{SITE}{p}</loc><lastmod>{today}</lastmod><priority>{prio(p)}</priority></url>\n" for p in urls)

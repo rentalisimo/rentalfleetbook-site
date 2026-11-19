@@ -101,9 +101,30 @@ def utilisation() -> str:
 
 def inbox() -> str:
     rows = "".join([
-        row("2XY7KL", "Infringement notice · read", "Matched to Priya S. · added to Fines", "Filed", "ok"),
-        row("ZQR418", "Mechanic invoice · read", "Minor service · odometer 172,400", "Filed", "ok"),
-        row("7GH3JK", "VicRoads renewal · read", "Rego due 2 Dec · bill sent to Xero", "Filed", "ok"),
-        row("1AB2CD", "Toll statement · read", "3 trips · recharge to hirer", "Review", "warn"),
+        row("2XY7KL", "Infringement notice · read by AI", "Matched to Priya S. · added to Fines", "Filed", "ok"),
+        row("ZQR418", "Mechanic invoice · read by AI", "Minor service · odometer 172,400", "Filed", "ok"),
+        row("7GH3JK", "VicRoads renewal · read by AI", "Rego due 2 Dec · bill sent to Xero", "Filed", "ok"),
+        row("1AB2CD", "Toll statement · read by AI", "3 trips · recharge to hirer", "Review", "warn"),
     ])
-    return f'<div class="mini"><h5>Paperwork inbox <span class="pill">your-company@inbox</span></h5><div class="rows">{rows}</div></div>{NOTE}'
+    return f'<div class="mini"><h5>AI paperwork inbox <span class="ai-chip" style="margin:0">{SPARK} AI</span></h5><div class="rows">{rows}</div></div>{NOTE}'
+
+
+SPARK = '<svg width="14" height="14" viewBox="0 0 24 24" fill="currentColor" aria-hidden="true"><path d="M12 2l1.9 5.6L19.5 9.5l-5.6 1.9L12 17l-1.9-5.6L4.5 9.5l5.6-1.9zM19 14l.9 2.6 2.6.9-2.6.9L19 21l-.9-2.6-2.6-.9 2.6-.9z"/></svg>'
+
+
+def ai_read() -> str:
+    """An infringement notice being read by AI: document on the left, fields on the right."""
+    doc = '''<div style="background:#fff;border:1px solid var(--line);border-radius:10px;padding:14px;font-size:10.5px;color:#64748B;line-height:1.5;box-shadow:0 1px 2px rgba(11,27,63,.06)">
+<div style="font-weight:800;color:#0B1B3F;font-size:11.5px;margin-bottom:6px">INFRINGEMENT NOTICE</div>
+<div style="height:6px;background:#E4E9F2;border-radius:3px;margin:6px 0;width:90%"></div><div style="height:6px;background:#E4E9F2;border-radius:3px;margin:6px 0;width:70%"></div>
+<div style="background:rgba(37,99,235,.12);outline:1.5px solid #2563EB;border-radius:4px;padding:2px 4px;margin:8px 0;color:#0B1B3F">Vehicle 2XY7KL · 14/11 10:42</div>
+<div style="height:6px;background:#E4E9F2;border-radius:3px;margin:6px 0;width:80%"></div>
+<div style="background:rgba(37,99,235,.12);outline:1.5px solid #2563EB;border-radius:4px;padding:2px 4px;margin:8px 0;color:#0B1B3F">Penalty $99 · Pay by 2/12</div>
+<div style="height:6px;background:#E4E9F2;border-radius:3px;margin:6px 0;width:60%"></div><div style="height:6px;background:#E4E9F2;border-radius:3px;margin:6px 0;width:85%"></div></div>'''
+    fields = f'''<div><div class="ai-chip">{SPARK} Read by AI in seconds</div>
+<div class="line"><span class="muted">Issuer</span><b>City of Kingston</b></div>
+<div class="line"><span class="muted">Offence</span><b>2XY7KL · 14 Nov, 10:42</b></div>
+<div class="line"><span class="muted">Amount</span><b>$99</b></div>
+<div class="line"><span class="muted">Matched to</span><b>Priya S. (on hire)</b></div>
+<div style="display:flex;gap:8px;margin-top:10px"><span class="btn sm primary" style="box-shadow:none">Looks right</span><span class="btn sm">Edit</span></div></div>'''
+    return f'<div class="mini"><div style="display:grid;grid-template-columns:.85fr 1fr;gap:16px;align-items:start">{doc}{fields}</div></div>{NOTE}'

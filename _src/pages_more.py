@@ -122,7 +122,7 @@ def about() -> str:
 <p>We run a fleet of more than 30 cars on weekly hires in Melbourne. As the fleet grew, the paperwork grew faster: agreements to print and file, weekly invoices to create in Xero, fines to match to the right hirer and nominate, services and rego dates to track, and overdue rent to chase.</p>
 <p>The rental software we looked at was either built for airport car hire with hundreds of vehicles, or was a generic fleet tool that didn't understand hires, bonds and nominations. So we built our own, and we run our fleet on it every day.</p>
 <h2>What it does today</h2>
-<p>RentalFleetBook handles the whole life of a hire: the agreement and pickup inspection, invoicing in Xero, fines and tolls during the hire, servicing, GPS, and the return inspection and bond statement at the end. Paperwork such as mechanic invoices, toll statements, infringement notices and rego renewals is forwarded to one inbox, read automatically and filed against the right car.</p>
+<p>RentalFleetBook handles the whole life of a hire: the agreement and pickup inspection, invoicing in Xero, fines and tolls during the hire, servicing, GPS, and the return inspection and bond statement at the end. Paperwork such as mechanic invoices, toll statements, infringement notices and rego renewals is forwarded to one inbox, where AI reads it and files it against the right car. That's why we call it an AI fleet manager: it takes the reading and typing off your plate.</p>
 <h2>Now open to other operators</h2>
 <p>We've opened RentalFleetBook to other Australian rental businesses, at a price that makes sense for small fleets. Your first month is free, and we're always happy to show you around. <a href="/contact/">Book a demo</a> or call us on <a href="{PHONE_HREF}">{PHONE}</a>.</p>
 </div></section>
@@ -142,13 +142,14 @@ def security() -> str:
              ("refresh", "Backups", "Daily database backups, plus a separate encrypted weekly backup of data and documents."),
              ("invoice", "Payments by Stripe", "Card payments for your subscription are handled by Stripe. We never see or store full card numbers."),
              ("sign", "Xero via secure sign-in", "Xero is connected with Xero's own sign-in. We never see your Xero password, and you can disconnect at any time."),
-             ("inbox", "Your data stays yours", "Ask for an export of your data at any time, or for it to be deleted when you leave.")]
+             ("inbox", "Your data stays yours", "Ask for an export of your data at any time, or for it to be deleted when you leave."),
+             ("cloud", "AI reading, privately", "Documents are read by Anthropic's commercial AI service, which doesn't use your data to train its models.")]
     cards = "".join(f'<div class="card">{icon(i)}<h3>{esc(t)}</h3><p>{esc(d)}</p></div>' for i, t, d in items)
     body = f'''
 <section class="page-hero"><div class="wrap narrow">{breadcrumbs(crumbs)}<div class="eyebrow">Security</div>
 <h1 style="font-size:clamp(2rem,4.2vw,3rem)">Your data, kept safe in Australia</h1>
 <p class="lead">Rental businesses hold sensitive information: licences, addresses, payments. Here's how RentalFleetBook protects it.</p></div></section>
-<section><div class="wrap"><div class="grid-4">{cards}</div>
+<section><div class="wrap"><div class="grid-3">{cards}</div>
 <p class="note" style="margin-top:28px">Questions about security or privacy? Read our <a href="/privacy.html">privacy policy</a> or <a href="/contact/">contact us</a>.</p></div></section>
 {cta_band()}'''
     return page("/security/", "Security & Data Hosting in Australia | RentalFleetBook",
@@ -207,3 +208,72 @@ def not_found() -> str:
 <p class="lead">That page doesn't exist. Try the home page, or log in to RentalFleetBook.</p>
 <div class="cta" style="justify-content:center;margin-top:20px"><a class="btn primary" href="/">Home</a><a class="btn" href="{APP}/login">Log in</a></div></div></section>'''
     return page("/404.html", "Page not found | RentalFleetBook", "Page not found.", body)
+
+
+AI_FAQ = [
+    ("Is it really AI?", "Yes. RentalFleetBook uses Claude, a large language model made by Anthropic, to read documents and photos: infringement and toll notices, mechanic invoices, rego notices, insurance papers, driver licences and your own rental agreement."),
+    ("How accurate is it?", "Very good on clear documents, but no AI is perfect. That's why everything it reads is shown to you, with the original document alongside, so you can check and correct it. Nothing it reads is submitted to a council, a hirer or Xero without you."),
+    ("Is my data used to train the AI?", "No. Documents are sent to Anthropic's commercial API only to be read. Under Anthropic's commercial terms, that data isn't used to train its models. Your documents themselves are stored privately in Australia."),
+    ("Does the AI cost extra?", "No. AI reading is included in every plan, with no per-document fees."),
+    ("Do I need to set anything up?", "No. Forward documents to your company's inbox address, or upload a photo, and the AI does the rest."),
+]
+
+
+def ai_page() -> str:
+    crumbs = [("Home", "/"), ("AI fleet manager", "/ai/")]
+    jobs = [("ticket", "Fines and tolls", "Reads the notice number, offence, date and time, place, amount and due date. Then finds who had the car at that moment and gets the nomination ready."),
+            ("wrench", "Mechanic invoices", "Reads the work done, parts, cost and odometer, updates the car's service history and next service, and drafts the bill in Xero."),
+            ("calendar", "Rego notices", "Reads VicRoads and other state renewal notices and receipts: due date, amount and which car, with the bill drafted in Xero."),
+            ("users", "Driver licences", "Snap the front and back of a licence. AI fills in name, licence number, expiry, date of birth and address, including change-of-address stickers."),
+            ("sign", "Your rental agreement", "Upload your agreement once. AI keeps your wording and turns the hirer, vehicle, dates and amounts into blanks that fill in for every hire."),
+            ("inbox", "Your paperwork inbox", "Everything you forward is sorted by type (fine, toll, invoice, rego, insurance, withdrawal) and filed against the right car or hire.")]
+    jcards = "".join(f'<div class="card ai-card">{icon(i)}<h3>{esc(t)}</h3><p>{esc(d)}</p></div>' for i, t, d in jobs)
+    auto = [("invoice", "Billing starts on signing", "First invoice (week one plus bond) and a weekly repeating invoice created in Xero."),
+            ("refresh", "Billing stops on return", "The repeating invoice is deleted in Xero when the car comes back."),
+            ("bell", "Overdue reminders", "SMS and email reminders with the total owing."),
+            ("chart", "Bond statements and reports", "Bond worked out on return; utilisation reports for any dates.")]
+    acards = "".join(f'<div class="card">{icon(i)}<h3>{esc(t)}</h3><p>{esc(d)}</p></div>' for i, t, d in auto)
+    faq = "".join(f"<details><summary>{esc(q)}</summary><p>{esc(a)}</p></details>" for q, a in AI_FAQ)
+    body = f'''
+<section class="hero"><div class="wrap grid">
+<div>{breadcrumbs(crumbs)}<div class="ai-eyebrow">{mocks.SPARK} AI fleet manager</div>
+<h1 style="font-size:clamp(2.1rem,4.6vw,3.4rem)">Meet your <span class="grad">AI fleet manager</span></h1>
+<p class="lead">The admin side of a rental business is mostly reading documents and typing what's in them somewhere else. RentalFleetBook's AI does that part for you, in seconds, so you can spend your time on cars and customers.</p>
+<div class="cta" style="margin-top:24px"><a class="btn primary" href="{APP}/signup">Try it free for a month <span class="arr">→</span></a><a class="btn" href="/contact/">Book a demo</a></div>
+<ul class="ticks"><li>Included in every plan</li><li>No setup</li><li>You stay in control</li></ul></div>
+<div>{mocks.ai_read()}</div></div></section>
+
+<section class="alt"><div class="wrap">
+<div class="head"><div class="eyebrow">What it handles</div><h2>Six jobs your AI fleet manager does every day</h2></div>
+<div class="grid-3">{jcards}</div></div></section>
+
+<section><div class="wrap">
+<div class="head center"><div class="eyebrow">How it works</div><h2>Forward it, check it, done</h2></div>
+<div class="grid-3">
+<div class="card"><div class="eyebrow" style="margin:0">Step 1</div><h3 style="margin-top:6px">Forward or snap</h3><p>Email the document to your company's RentalFleetBook inbox address, or take a photo with your phone.</p></div>
+<div class="card ai-card"><div class="eyebrow" style="margin:0">Step 2</div><h3 style="margin-top:6px">AI reads and matches</h3><p>The AI reads it, works out what it is, and links it to the right car, hire and hirer.</p></div>
+<div class="card"><div class="eyebrow" style="margin:0">Step 3</div><h3 style="margin-top:6px">You check and act</h3><p>See what it read next to the original. Confirm, correct if needed, then nominate, pay or recharge.</p></div>
+</div></div></section>
+
+<section class="alt"><div class="wrap feat" style="padding:0">
+<div class="copy"><div class="eyebrow">You stay in control</div><h2>AI that does the work, not the deciding</h2>
+<p>Your AI fleet manager is built to save time, not to take decisions out of your hands:</p>
+<ul class="checks"><li>Everything it reads is shown with the original document, ready to check and correct</li>
+<li>The AI never submits a nomination, pays a fine or contacts a hirer because of something it read</li>
+<li>Billing, reminders and bonds follow the rules you set</li>
+<li>Documents are read by Anthropic's commercial AI service, which doesn't use them to train its models, and stored privately in Australia</li></ul>
+<p class="honest">Like any AI, it can occasionally misread a blurry photo or an unusual document. That's why you always get the final say.</p></div>
+<div>{mocks.inbox()}</div></div></section>
+
+<section><div class="wrap">
+<div class="head"><div class="eyebrow">Plus the automation around it</div><h2>What happens after the AI reads</h2>
+<p class="lead">AI reads the paperwork; RentalFleetBook's automation takes it from there.</p></div>
+<div class="grid-4">{acards}</div></div></section>
+
+<section class="alt"><div class="wrap narrow faq"><div class="head"><h2>Questions about the AI</h2></div>{faq}</div></section>
+{cta_band("Hand your paperwork to your AI fleet manager", "Try RentalFleetBook free for your first month. AI reading is included in every plan.")}'''
+    schema = [{"@context": "https://schema.org", "@type": "FAQPage", "mainEntity": [
+        {"@type": "Question", "name": q, "acceptedAnswer": {"@type": "Answer", "text": a}} for q, a in AI_FAQ]}]
+    return page("/ai/", "AI Fleet Manager for Rental Cars | AI Fleet Management Software | RentalFleetBook",
+                "Meet your AI fleet manager. RentalFleetBook's AI reads fines, tolls, mechanic invoices, rego notices, driver licences and your rental agreement, and files them against the right car and hire. Included in every plan.",
+                body, schema, crumbs)
