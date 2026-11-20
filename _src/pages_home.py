@@ -21,6 +21,19 @@ COMPARE = [
 ]
 
 
+APPROVE_ROWS = [
+    ("Fine", "crit", "Speed camera notice · $363", "Matched to hirer J. Nguyen · nomination ready", "ZQR418"),
+    ("Toll", "warn", "CityLink trip · $11.24", "Added to A. Patel's weekly invoice", "1XT9KD"),
+    ("Service", "info", "Mechanic invoice · 60,000 km service", "Service history updated · next due at 70,000 km", "BHL207"),
+    ("Rego", "ok", "VicRoads renewal · due 14 Dec", "Expiry updated · bill drafted in Xero", "AAK55M"),
+]
+APPROVE = ('<div class="mini approve"><h5>Ready to approve <span class="ai-chip" style="margin:0">' + mocks.SPARK + ' Read by AI</span></h5>'
+           + "".join(f'<div class="ar"><span class="pill {k}">{esc(kind)}</span><div class="t"><b>{esc(t)}</b><small>{esc(s)}</small></div>'
+                     f'{mocks.plate(p)}<button type="button" class="btn sm primary ok-btn">Approve</button></div>'
+                     for kind, k, t, s, p in APPROVE_ROWS)
+           + '</div><p class="mock-note">Illustrative example with made-up data. Try the Approve buttons.</p>')
+
+
 def home() -> str:
     feat_cards = "".join(
         f'<a class="card" href="{h}">{icon(i)}<h3>{esc(t)}</h3><p>{esc(d)}.</p><span class="more">Learn more →</span></a>'
@@ -38,23 +51,27 @@ def home() -> str:
 <ul class="checks">{pts}</ul><a class="more" href="{link}" style="font-weight:700">Learn more →</a></div><div>{mock}</div></div>'''
 
     body = f'''
-<section class="hero"><div class="wrap grid">
-<div>
-<div class="ai-eyebrow">{mocks.SPARK} AI-powered · Built for Australian rental operators</div>
-<h1>Your <span class="grad">AI fleet manager.</span> You run the business.</h1>
-<p class="lead">RentalFleetBook's AI reads your fines, tolls, mechanic invoices, rego notices and driver licences, files them against the right car and hire, and keeps billing running in Xero. You just check and approve.</p>
-<div class="cta"><a class="btn primary" href="{APP}/signup">Start your free month <span class="arr">→</span></a><a class="btn" href="/contact/">Book a demo</a></div>
-<ul class="ticks"><li>AI reads your paperwork</li><li>No credit card required</li><li>Data hosted in Australia</li><li>Xero integration</li></ul>
+<section class="hero-dark"><div class="wrap">
+<div class="hero-top">
+<div class="hero-copy">
+<div class="hero-badge">{mocks.SPARK} AI-powered · Built in Melbourne for Australian rental fleets</div>
+<h1>Your AI fleet manager.<br><span>You run the business.</span></h1>
 </div>
-<div>{mocks.dashboard()}</div>
+<div class="hero-side">
+<p class="lead">RentalFleetBook's AI reads your fines, tolls, mechanic invoices, rego notices and driver licences, files them against the right car and hire, and keeps billing running in Xero. You just check and approve.</p>
+<div class="cta"><a class="btn primary" href="{APP}/signup">Start your free month <span class="arr">→</span></a><a class="btn ghost-light" href="/contact/">Book a demo</a></div>
+<p class="hero-small">First month free · No credit card required · Unlimited users</p>
+</div>
+</div>
+<div class="hero-shot"><img src="/assets/hero.jpg" srcset="/assets/hero-900.jpg 900w, /assets/hero.jpg 1600w" sizes="(max-width: 1220px) 100vw, 1180px" width="1600" height="900" alt="A rental operator with a tablet in front of her fleet, beside the RentalFleetBook fleet overview" fetchpriority="high"></div>
 </div></section>
 
-<section class="tight alt"><div class="wrap">
+<section class="trust"><div class="wrap">
 <div class="grid-4">
-<div><strong style="color:var(--ink);font-size:1.05rem">Made by a rental operator</strong><p class="note" style="margin:4px 0 0">Built and used every day by a Melbourne rental business with 30+ cars.</p></div>
-<div><strong style="color:var(--ink);font-size:1.05rem">Connected to Xero</strong><p class="note" style="margin:4px 0 0">Customers, invoices, repeating invoices and payments stay in sync.</p></div>
-<div><strong style="color:var(--ink);font-size:1.05rem">Australian hosting</strong><p class="note" style="margin:4px 0 0">Your data is stored in Sydney, encrypted and backed up daily.</p></div>
-<div><strong style="color:var(--ink);font-size:1.05rem">Works on your phone</strong><p class="note" style="margin:4px 0 0">Do pickups and returns in the yard, and install it like an app.</p></div>
+<div class="t">{icon("users")}<div><strong>Made by a rental operator</strong><p>Built and used every day by a Melbourne rental business with 30+ cars.</p></div></div>
+<div class="t">{icon("refresh")}<div><strong>Connected to Xero</strong><p>Customers, invoices, repeating invoices and payments stay in sync.</p></div></div>
+<div class="t">{icon("lock")}<div><strong>Australian hosting</strong><p>Your data is stored in Sydney, encrypted and backed up daily.</p></div></div>
+<div class="t">{icon("phone")}<div><strong>Works on your phone</strong><p>Do pickups and returns in the yard, and install it like an app.</p></div></div>
 </div></div></section>
 
 
@@ -72,7 +89,7 @@ def home() -> str:
 <li><b>Your inbox:</b> AI sorts every forwarded document by type</li>
 </ul>
 <a class="btn primary" href="/ai/">Meet your AI fleet manager <span class="arr">→</span></a>
-</div><div>{mocks.ai_read()}</div></div>
+</div><div>{APPROVE}</div></div>
 </div></section>
 <section class="alt"><div class="wrap">
 <div class="head center"><div class="eyebrow">Everything your rental business needs</div><h2>One platform. Less administration. More control.</h2>
@@ -127,6 +144,11 @@ def home() -> str:
 <div class="price hl"><div class="tag">Most popular</div><div class="n">11–20 cars</div><div class="amt">$110</div><div class="per">per month + GST</div><ul><li>All features</li><li>Unlimited users</li></ul><a class="btn primary" href="{APP}/signup">Start free</a></div>
 <div class="price"><div class="n">Over 20 cars</div><div class="amt">$5</div><div class="per">per car per month + GST</div><ul><li>All features</li><li>Unlimited users</li></ul><a class="btn" href="{APP}/signup">Start free</a></div>
 </div>
+<div class="calc">
+<label style="font-weight:700;color:var(--ink)">How many cars do you run? <span id="n" style="color:var(--blue)">12</span>
+<input id="cars" type="range" min="1" max="80" value="12" aria-label="Number of cars"></label>
+<div style="text-align:right"><output id="price">$110</output><div class="note">per month + GST</div></div>
+</div>
 <p class="note center" style="margin-top:18px"><b>First month free.</b> Pay monthly by card, cancel any time. <a href="/pricing/">See full pricing →</a></p>
 </div></section>
 
@@ -147,6 +169,10 @@ def home() -> str:
 </div></section>
 
 {cta_band()}
+<script>(function(){{var r=document.getElementById("cars"),o=document.getElementById("price"),n=document.getElementById("n");
+function p(c){{return c<=5?30:c<=10?45:c<=20?110:5*c}}
+function u(){{var c=+r.value;n.textContent=c;o.textContent="$"+p(c)}}r.addEventListener("input",u);u();
+document.querySelectorAll(".approve .ok-btn").forEach(function(b){{b.addEventListener("click",function(){{var d=document.createElement("span");d.className="done";d.textContent="✓ Approved";b.replaceWith(d)}})}})}})()</script>
 '''
     schema = [
         {"@context": "https://schema.org", "@type": "SoftwareApplication", "name": "RentalFleetBook",
