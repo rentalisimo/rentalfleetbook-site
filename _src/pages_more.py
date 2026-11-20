@@ -1,6 +1,6 @@
 """Solutions, pricing, about, security, contact, legal and 404 pages."""
 from pathlib import Path
-from layout import APP, PHONE, PHONE_HREF, SOLUTIONS, breadcrumbs, cta_band, esc, icon, page
+from layout import APP, SOLUTIONS, breadcrumbs, cta_band, esc, icon, page
 import mocks
 
 SOL = [
@@ -124,7 +124,7 @@ def about() -> str:
 <h2>What it does today</h2>
 <p>RentalFleetBook handles the whole life of a hire: the agreement and pickup inspection, invoicing in Xero, fines and tolls during the hire, servicing, GPS, and the return inspection and bond statement at the end. Paperwork such as mechanic invoices, toll statements, infringement notices and rego renewals is forwarded to one inbox, where AI reads it and files it against the right car. That's why we call it an AI fleet manager: it takes the reading and typing off your plate.</p>
 <h2>Now open to other operators</h2>
-<p>We've opened RentalFleetBook to other Australian rental businesses, at a price that makes sense for small fleets. Your first month is free, and we're always happy to show you around. <a href="/contact/">Book a demo</a> or call us on <a href="{PHONE_HREF}">{PHONE}</a>.</p>
+<p>We've opened RentalFleetBook to other Australian rental businesses, at a price that makes sense for small fleets. Your first month is free, and we're always happy to show you around. <a href="/contact/">Book a demo</a> and we'll walk you through it.</p>
 </div></section>
 <section class="alt"><div class="wrap"><div class="head"><h2>What we believe</h2></div><div class="grid-3">{vcards}</div></div></section>
 {cta_band()}'''
@@ -165,7 +165,6 @@ def contact() -> str:
 <h1 style="font-size:clamp(2rem,4.2vw,3rem)">See RentalFleetBook with your own fleet in mind</h1>
 <p class="lead">Tell us a little about your business and we'll call you to arrange a short demo, usually within one business day. Or start your free month and look around yourself.</p>
 <ul class="checks"><li>A 20–30 minute walkthrough, online or by phone</li><li>Your questions about hires, Xero, fines and servicing answered</li><li>Help importing your cars and setting up your agreement</li></ul>
-<p>Prefer to talk now? Call <a href="{PHONE_HREF}"><b>{PHONE}</b></a>.</p>
 <p><a class="btn" href="{APP}/signup">Start your free month instead <span class="arr">→</span></a></p>
 </div>
 <form class="form" id="lead" novalidate>
@@ -190,9 +189,9 @@ if(!d.name||!/^[^@\\s]+@[^@\\s]+\\.[^@\\s]+$/.test(d.email)){{m.className="msg e
 b.disabled=true;b.textContent="Sending…";
 try{{var r=await fetch("{APP}/api/leads",{{method:"POST",headers:{{"Content-Type":"application/json"}},body:JSON.stringify(d)}});
 if(!r.ok)throw 0;f.reset();m.className="msg ok";m.textContent="Thanks! We'll be in touch within one business day.";b.textContent="Sent"}}
-catch(_){{b.disabled=false;b.textContent="Send";m.className="msg err";m.textContent="Sorry, that didn't send. Please call {PHONE} instead."}}}})}})()</script>'''
+catch(_){{b.disabled=false;b.textContent="Send";m.className="msg err";m.textContent="Sorry, that didn't send. Please try again in a moment."}}}})}})()</script>'''
     return page("/contact/", "Book a Demo | Contact RentalFleetBook",
-                "Book a demo of RentalFleetBook, the car rental fleet management software built in Melbourne. Or call +61 448 019 043.",
+                "Book a demo of RentalFleetBook, the car rental fleet management software built in Melbourne. We'll call you to arrange a short demo.",
                 body, None, crumbs)
 
 

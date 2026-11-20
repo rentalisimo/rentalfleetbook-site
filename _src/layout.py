@@ -3,8 +3,6 @@ import html, json
 
 SITE = "https://www.rentalfleetbook.com"
 APP = "https://app.rentalfleetbook.com"
-PHONE = "+61 448 019 043"
-PHONE_HREF = "tel:+61448019043"
 
 FEATURES = [
     ("/features/fleet-management/", "Fleet management", "Every car, its rego, insurance, documents and status"),
@@ -84,8 +82,7 @@ def footer() -> str:
     return f'''<footer><div class="wrap">
 <div class="cols">
 <div><a class="brand" href="/"><img src="/assets/icon.png" alt="" width="34" height="34"><span><b>RentalFleet</b><i>Book</i></span></a>
-<p style="margin-top:14px;max-width:300px">The AI fleet manager for Australian car rental businesses. Built in Melbourne by a rental operator.</p>
-<p><a href="{PHONE_HREF}" style="display:inline">{PHONE}</a></p></div>
+<p style="margin-top:14px;max-width:300px">The AI fleet manager for Australian car rental businesses. Built in Melbourne by a rental operator.</p></div>
 <div><h4>Features</h4>{col(FEATURES)}</div>
 <div><h4>Solutions</h4>{col(SOLUTIONS)}</div>
 <div><h4>Company</h4><a href="/ai/">AI fleet manager</a><a href="/about/">About us</a><a href="/pricing/">Pricing</a><a href="/security/">Security</a><a href="/contact/">Contact &amp; demo</a></div>
@@ -105,7 +102,7 @@ def page(path: str, title: str, desc: str, body: str, schema: list | None = None
     url = SITE + path
     ld = list(schema or [])
     ld.append({"@context": "https://schema.org", "@type": "Organization", "name": "RentalFleetBook", "url": SITE,
-               "logo": SITE + "/assets/logo.png", "telephone": PHONE, "areaServed": "AU",
+               "logo": SITE + "/assets/logo.png", "areaServed": "AU",
                "address": {"@type": "PostalAddress", "addressLocality": "Melbourne", "addressRegion": "VIC", "addressCountry": "AU"}})
     if crumbs:
         ld.append({"@context": "https://schema.org", "@type": "BreadcrumbList", "itemListElement": [
